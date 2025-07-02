@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - npm install -g @angular/cli
+      - npm install
+  build:
+    commands:
+      - ng build --configuration production
+
+artifacts:
+  files:
+    - '**/*'  # All files in dist/guider
+  base-directory: 'dist/res_pvs/browser'  # ⚠ Must match your Angular output folder
+  discard-paths: no  # Preserve folder structure
+  encryptionDisabled: false  # default is false, but be explicit
