@@ -13,8 +13,13 @@ export class ApiService extends  BaseClass {
   constructor(private http: HttpClient , private configService: ConfigService) {
     super();
   }
+
+   checking(){
+    console.log("logging")
+   }
    
     signup( username: string, password: string) {
+      console.log(username)
     let clientId = this.configService.get('cognitoClientId')
     let  clientSecret =  this.configService.get('cognitoClientSecret')
     let   secretHash  = this.generateSecretHash(username , clientId , clientSecret )
@@ -33,6 +38,26 @@ export class ApiService extends  BaseClass {
           Value: username
         }
       ]
+    };
+
+    return this.http.post(this.cognitoUrl, body, { headers });
+  }
+
+
+    verify( username: string, code: string) {
+    let clientId = this.configService.get('cognitoClientId')
+    let  clientSecret =  this.configService.get('cognitoClientSecret')
+    let   secretHash  = this.generateSecretHash(username , clientId , clientSecret )
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmSignUp'
+    });
+    const body = {
+      ClientId: clientId,
+      Username: username,
+      SecretHash: secretHash,
+      ConfirmationCode: code,
+      
     };
 
     return this.http.post(this.cognitoUrl, body, { headers });

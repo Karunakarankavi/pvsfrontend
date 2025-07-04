@@ -1,0 +1,52 @@
+.auth-dialog-container {
+  max-width: 350px;
+  margin: auto;
+  background: linear-gradient(to bottom, #f4f6f9, #e9edf3);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #232f3e;
+  margin-bottom: 1.5rem;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.google-btn {
+  background-color: white;
+  color: #4285f4;
+  border: 1px solid #ccc;
+}
+
+.google-btn:hover {
+  background-color: #f1f1f1;
+}
+
+button[type="submit"] {
+  background-color: #f90;
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background-color: #ffad33;
+}
+
+.switch-mode {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  color: #333;
+}
+
+.switch-mode a {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+}

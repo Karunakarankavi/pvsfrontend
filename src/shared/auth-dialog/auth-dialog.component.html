@@ -1,0 +1,48 @@
+<div class="auth-dialog-container">
+  <h2 mat-dialog-title *ngIf="!isVerifying">
+    {{ isSignup ? 'Create Account' : 'Sign In' }}
+  </h2>
+  <h2 mat-dialog-title *ngIf="isVerifying">Verify Your Email</h2>
+
+  <!-- Login/Signup Form -->
+  <form *ngIf="!isVerifying" (ngSubmit)="onSubmit()" [formGroup]="authForm">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="username" type="email" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password" type="password" required />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" class="form-field" type="submit">
+      {{ isSignup ? 'Create Account' : 'Sign In' }}
+    </button>
+
+    <button mat-stroked-button color="accent" class="form-field google-btn" type="button">
+      Continue with Google
+    </button>
+
+    <p class="switch-mode">
+      {{ isSignup ? 'Already have an account?' : 'Don’t have an account?' }}
+      <a href="#" (click)="toggleMode($event)">
+        {{ isSignup ? 'Sign In' : 'Sign Up' }}
+      </a>
+    </p>
+  </form>
+
+  <!-- Verification Code Form -->
+  <form *ngIf="isVerifying" [formGroup]="verificationForm" (ngSubmit)="verifyCode()">
+    <p>We’ve sent a code to <strong>{{ userEmail }}</strong>. Enter it below:</p>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Verification Code</mat-label>
+      <input matInput formControlName="code" required />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" class="form-field" type="submit">
+      Confirm Account
+    </button>
+  </form>
+</div>

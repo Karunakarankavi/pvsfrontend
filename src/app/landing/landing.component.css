@@ -1,0 +1,70 @@
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3rem 2rem;
+  background-color: #f5f7fa;
+  font-family: "Segoe UI", sans-serif;
+  flex-wrap: wrap;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  color: #232f3e;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.book-now-btn {
+  background-color: #f90;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.book-now-btn:hover {
+  background-color: #ffad33;
+}
+
+.hero-image img {
+  max-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.features-section {
+  background: white;
+  padding: 3rem 2rem;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2rem;
+  text-align: center;
+}
+
+.feature {
+  max-width: 300px;
+}
+
+.feature h3 {
+  font-size: 1.3rem;
+  color: #232f3e;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: #666;
+}
