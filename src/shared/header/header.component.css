@@ -1,0 +1,50 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, #232f3e, #37475a);
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.auth-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.auth-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-signin {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.btn-signin:hover {
+  background-color: white;
+  color: #232f3e;
+}
+
+.btn-create {
+  background-color: #f90;
+  color: #232f3e;
+}
+
+.btn-create:hover {
+  background-color: #ffad33;
+}

@@ -18,10 +18,10 @@ export class AppComponent implements OnInit {
     console.log('Client ID:', this.configService.get('cognitoClientId'));
     console.log('Client Secret:', this.configService.get('cognitoClientSecret'));
      
-    this.apiService.signup("karunakarankavitha3@gmail.com" , "Kavitha@3").subscribe({
-  next: (res) => console.log('Signup success:', res),
-  error: (err) => console.error('Signup error:', err)
-});
+//     this.apiService.signup("karunakarankavitha3@gmail.com" , "Kavitha@3").subscribe({
+//   next: (res) => console.log('Signup success:', res),
+//   error: (err) => console.error('Signup error:', err)
+// });
 
 
   }
