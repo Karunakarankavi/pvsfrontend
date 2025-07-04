@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ConfigService } from '../assets/config.service';
+import { ApiService } from './api.service';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,17 @@ import { ConfigService } from '../assets/config.service';
 export class AppComponent implements OnInit {
   title = 'res_pvs';
 
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService , private apiService : ApiService) {}
 
   ngOnInit(): void {
     console.log('Client ID:', this.configService.get('cognitoClientId'));
     console.log('Client Secret:', this.configService.get('cognitoClientSecret'));
+     
+    this.apiService.signup("karunakarankavitha3@gmail.com" , "Kavitha@3").subscribe({
+  next: (res) => console.log('Signup success:', res),
+  error: (err) => console.error('Signup error:', err)
+});
+
+
   }
 }

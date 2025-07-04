@@ -3,6 +3,7 @@ import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
 import { ConfigService } from './assets/config.service';
 
+
 const configService = new ConfigService();
 
 configService.loadConfig().then(() => {

@@ -1,7 +1,7 @@
 import * as CryptoJS from 'crypto-js';
 
 
-class BaseClass {
+export class BaseClass {
 
   generateSecretHash(
   username: string,
