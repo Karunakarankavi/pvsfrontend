@@ -6,23 +6,47 @@ import { ConfigService } from '../assets/config.service';
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService extends  BaseClass {
+export class ApiService extends BaseClass {
 
   cognitoUrl = "https://cognito-idp.ap-south-1.amazonaws.com/"
+  baseUrl = "http://localhost:5000/"
 
-  constructor(private http: HttpClient , private configService: ConfigService) {
+  constructor(private http: HttpClient, private configService: ConfigService) {
     super();
   }
 
-   checking(){
+  checking() {
     console.log("logging")
-   }
-   
-    signup( username: string, password: string) {
-      console.log(username)
+  }
+
+
+
+  signin(username: string, password: string) {
     let clientId = this.configService.get('cognitoClientId')
-    let  clientSecret =  this.configService.get('cognitoClientSecret')
-    let   secretHash  = this.generateSecretHash(username , clientId , clientSecret )
+    let clientSecret = this.configService.get('cognitoClientSecret')
+    let secretHash = this.generateSecretHash(username, clientId, clientSecret)
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
+    });
+    const body = {
+      "AuthFlow": "USER_PASSWORD_AUTH",
+      "ClientId": clientId,
+      "AuthParameters": {
+        "USERNAME": username,
+        "PASSWORD": password,
+        "SECRET_HASH": secretHash
+      }
+    }
+
+    return this.http.post(this.cognitoUrl, body, { headers });
+  }
+
+  signup(username: string, password: string) {
+    console.log(username)
+    let clientId = this.configService.get('cognitoClientId')
+    let clientSecret = this.configService.get('cognitoClientSecret')
+    let secretHash = this.generateSecretHash(username, clientId, clientSecret)
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.SignUp'
@@ -44,10 +68,10 @@ export class ApiService extends  BaseClass {
   }
 
 
-    verify( username: string, code: string) {
+  verify(username: string, code: string) {
     let clientId = this.configService.get('cognitoClientId')
-    let  clientSecret =  this.configService.get('cognitoClientSecret')
-    let   secretHash  = this.generateSecretHash(username , clientId , clientSecret )
+    let clientSecret = this.configService.get('cognitoClientSecret')
+    let secretHash = this.generateSecretHash(username, clientId, clientSecret)
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSCognitoIdentityProviderService.ConfirmSignUp'
@@ -57,10 +81,20 @@ export class ApiService extends  BaseClass {
       Username: username,
       SecretHash: secretHash,
       ConfirmationCode: code,
-      
+
     };
 
     return this.http.post(this.cognitoUrl, body, { headers });
+  }
+
+  saveUser(body: any) {
+    const token = window.sessionStorage.getItem("accessToken")
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      "Content-Type": "application/json"
+    });
+    return this.http.post(this.baseUrl + "saveuser", body, { headers });
+
   }
 
 }

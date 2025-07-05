@@ -61,7 +61,30 @@ export class AuthDialogComponent {
         }
       });
     } else {
-      // Handle login if needed
+      console.log("else")
+      this.apiService.signin(username, password).subscribe({
+        next: (res:any) => {
+          window.sessionStorage.setItem("accessToken" , res.AuthenticationResult.AccessToken )
+          let body = {
+            name : this.userEmail
+           }
+           this.apiService.saveUser(body).subscribe({
+        next: (res:any) => {
+ 
+        },
+        error: (err:any) => {
+        }
+      });
+          this.dialogRef.close()
+          this.router.navigate(['/dashboard']);
+ 
+        },
+        error: (err:any) => {
+          console.error('Signup failed', err);
+          alert('Signup failed: ' + err.error?.message || 'Unknown error');
+        }
+      });
+      
     }
   }
 
@@ -70,9 +93,28 @@ export class AuthDialogComponent {
 
     this.apiService.verify(this.userEmail, code).subscribe({
       next: (res:any) => {
-        console.log('Verification success', res);
-        this.dialogRef.close();
-        this.router.navigate(['/dashboard']);
+        this.apiService.signin(this.userEmail, this.password).subscribe({
+        next: (res:any) => {
+          window.sessionStorage.setItem("accessToken" , res.AuthenticationResult.AccessToken )
+           let body = {
+            name : this.userEmail
+           }
+          this.apiService.saveUser(body).subscribe({
+        next: (res:any) => {
+ 
+        },
+        error: (err:any) => {
+        }
+      });
+          this.dialogRef.close()
+          this.router.navigate(['/dashboard']);
+ 
+        },
+        error: (err:any) => {
+          console.error('Signup failed', err);
+          alert('Signup failed: ' + err.error?.message || 'Unknown error');
+        }
+      });
       },
       error: (err:any) => {
         console.error('Verification failed', err);
