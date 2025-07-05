@@ -16,10 +16,21 @@ export class LandingComponent {
 
 
 openAuthDialog() {
-  this.dialog.open(AuthDialogComponent, {
-    width: '40%',
-    height : '60%',
-    
-  });
+  const dialogRef = this.dialog.open(AuthDialogComponent, {
+  width: '40%',
+  height: '60%',
+});
+
+dialogRef.afterClosed().subscribe(result => {
+  console.log(result)
+  if(result){
+    this.openAuthDialog()
+  }
+  console.log('The dialog was closed');
+  // Handle the result here
+});
+
+
+
 }
 }
