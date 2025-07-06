@@ -17,7 +17,8 @@ phases:
         cat <<EOF > src/assets/config.json
         {
           "cognitoClientId": "$COGNITO_CLIENT_ID",
-          "cognitoClientSecret": "$COGNITO_CLIENT_SECRET"
+          "cognitoClientSecret": "$COGNITO_CLIENT_SECRET",
+          "backendUrl" : "$BACKEND_URL"
         }
         EOF
       - echo "✅ config.json generated successfully."
