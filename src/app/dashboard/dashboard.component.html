@@ -11,21 +11,22 @@
   </nav>
 </header>
 
+
 <!-- SEARCH BAR -->
-<div class="hotel-search-bar">
+<form [formGroup]="searchForm" class="hotel-search-bar">
   <div class="field">
     <label>From</label>
-    <input type="date" class="input" />
+    <input type="date" class="input" formControlName="fromDate" />
   </div>
 
   <div class="field">
     <label>To</label>
-    <input type="date" class="input" />
+    <input type="date" class="input" formControlName="toDate" />
   </div>
 
   <div class="field">
     <label>Rooms</label>
-    <select class="input">
+    <select class="input" formControlName="roomCount">
       <option value="1">1 Room</option>
       <option value="2">2 Rooms</option>
       <option value="3">3 Rooms</option>
@@ -34,88 +35,24 @@
 
   <div class="field">
     <label>Room Type</label>
-    <select class="input">
+    <select class="input" formControlName="roomType">
       <option value="ac">AC</option>
       <option value="non-ac">Non-AC</option>
     </select>
   </div>
 
-  <button class="search-btn">Search</button>
-</div>
+  <button type="button" class="search-btn" (click)="onSearch()">Search</button>
+</form>
 
 <!-- ROOM LISTING SECTION -->
-<div class="room-list">
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Deluxe AC Room</h3>
-      <p>Spacious air-conditioned room with free Wi-Fi, TV, and breakfast included.</p>
-      <p class="price">₹2,500 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
+@if (!searchClicked) {
+  <div class="room-hint">Please select date range to get room availability.</div>
+} @else {
+  <app-room-availability 
+    [from]="fromDate" 
+    [to]="toDate" 
+    [roomCount]="roomCount" 
+    [roomType]="roomType">
+  </app-room-availability>
+}
 
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Standard Non-AC Room</h3>
-      <p>Comfortable room with fan, queen bed, and complimentary toiletries.</p>
-      <p class="price">₹1,800 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
-
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Luxury Suite with AC</h3>
-      <p>Premium suite with living space, AC, smart TV, mini-fridge, and more.</p>
-      <p class="price">₹4,200 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
-
-
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Luxury Suite with AC</h3>
-      <p>Premium suite with living space, AC, smart TV, mini-fridge, and more.</p>
-      <p class="price">₹4,200 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
-
-
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Luxury Suite with AC</h3>
-      <p>Premium suite with living space, AC, smart TV, mini-fridge, and more.</p>
-      <p class="price">₹4,200 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
-
-
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Luxury Suite with AC</h3>
-      <p>Premium suite with living space, AC, smart TV, mini-fridge, and more.</p>
-      <p class="price">₹4,200 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
-
-
-  <div class="room-card">
-    <img src="assets/img/room-clean.png" alt="Room Image" />
-    <div class="room-info">
-      <h3>Luxury Suite with AC</h3>
-      <p>Premium suite with living space, AC, smart TV, mini-fridge, and more.</p>
-      <p class="price">₹4,200 / night</p>
-      <button class="book-btn">Book Now</button>
-    </div>
-  </div>
-</div>

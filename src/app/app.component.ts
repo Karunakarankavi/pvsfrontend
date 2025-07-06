@@ -15,8 +15,6 @@ export class AppComponent implements OnInit {
   constructor(private configService: ConfigService , private apiService : ApiService) {}
 
   ngOnInit(): void {
-    console.log('Client ID:', this.configService.get('cognitoClientId'));
-    console.log('Client Secret:', this.configService.get('cognitoClientSecret'));
      
 //     this.apiService.signup("karunakarankavitha3@gmail.com" , "Kavitha@3").subscribe({
 //   next: (res) => console.log('Signup success:', res),

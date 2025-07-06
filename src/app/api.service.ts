@@ -14,9 +14,6 @@ export class ApiService extends BaseClass {
     super();
   }
 
-  checking() {
-    console.log("logging")
-  }
 
 
 
@@ -42,7 +39,6 @@ export class ApiService extends BaseClass {
   }
 
   signup(username: string, password: string) {
-    console.log(username)
     let clientId = this.configService.get('cognitoClientId')
     let clientSecret = this.configService.get('cognitoClientSecret')
     let secretHash = this.generateSecretHash(username, clientId, clientSecret)
@@ -88,9 +84,6 @@ export class ApiService extends BaseClass {
 
   saveUser(body: any) {
      let baseUrl = this.configService.get("backendUrl")
-
-     console.log(baseUrl)
-
     const token = window.sessionStorage.getItem("accessToken")
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -99,5 +92,21 @@ export class ApiService extends BaseClass {
     return this.http.post(baseUrl + "saveuser", body, { headers });
 
   }
+
+ getAvailableRooms(startDate: string, endDate: string) {
+  const baseUrl = this.configService.get("backendUrl");
+  const token = window.sessionStorage.getItem("accessToken");
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  });
+
+  const url = `${baseUrl}rooms/available?checkIn=${startDate}&checkOut=${endDate}`;
+  
+  const body = {}; // or provide a body if needed
+
+  return this.http.get(url ,{ headers });
+}
+
 
 }
