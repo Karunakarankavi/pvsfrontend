@@ -89,6 +89,8 @@ export class ApiService extends BaseClass {
   saveUser(body: any) {
      let baseUrl = this.configService.get("backendUrl")
 
+     console.log(baseUrl)
+
     const token = window.sessionStorage.getItem("accessToken")
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
