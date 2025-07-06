@@ -9,7 +9,6 @@ import { ConfigService } from '../assets/config.service';
 export class ApiService extends BaseClass {
 
   cognitoUrl = "https://cognito-idp.ap-south-1.amazonaws.com/"
-  baseUrl = "http://localhost:5000/"
 
   constructor(private http: HttpClient, private configService: ConfigService) {
     super();
@@ -88,12 +87,14 @@ export class ApiService extends BaseClass {
   }
 
   saveUser(body: any) {
+     let baseUrl = this.configService.get("backendUrl")
+
     const token = window.sessionStorage.getItem("accessToken")
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       "Content-Type": "application/json"
     });
-    return this.http.post(this.baseUrl + "saveuser", body, { headers });
+    return this.http.post(baseUrl + "saveuser", body, { headers });
 
   }
 
