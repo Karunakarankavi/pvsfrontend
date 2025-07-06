@@ -108,5 +108,20 @@ export class ApiService extends BaseClass {
   return this.http.get(url ,{ headers });
 }
 
+createOrder(amount : number) {
+  const baseUrl = this.configService.get("backendUrl");
+  const token = window.sessionStorage.getItem("accessToken");
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  });
+
+  const url = `${baseUrl}api/payment/createOrder?amount=${amount}`;
+  
+  const body = {}; // or provide a body if needed
+
+  return this.http.post(url , null,{ headers });
+}
+
 
 }
