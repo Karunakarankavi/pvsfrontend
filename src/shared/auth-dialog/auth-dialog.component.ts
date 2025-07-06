@@ -26,7 +26,6 @@ export class AuthDialogComponent {
     private router: Router,
     private apiService: ApiService
   ) {
-      console.log('apiService exists?', !!this.apiService);
 
     this.authForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
@@ -52,7 +51,6 @@ export class AuthDialogComponent {
     if (this.isSignup) {
       this.apiService.signup(username, password).subscribe({
         next: (res:any) => {
-          console.log('Signup success', res);
           this.isVerifying = true;
         },
         error: (err:any) => {
@@ -61,20 +59,13 @@ export class AuthDialogComponent {
         }
       });
     } else {
-      console.log("else")
       this.apiService.signin(username, password).subscribe({
         next: (res:any) => {
           window.sessionStorage.setItem("accessToken" , res.AuthenticationResult.AccessToken )
           let body = {
             name : this.userEmail
            }
-           this.apiService.saveUser(body).subscribe({
-        next: (res:any) => {
- 
-        },
-        error: (err:any) => {
-        }
-      });
+         
           this.dialogRef.close()
           this.router.navigate(['/dashboard']);
  

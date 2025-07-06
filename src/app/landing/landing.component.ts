@@ -22,11 +22,9 @@ openAuthDialog() {
 });
 
 dialogRef.afterClosed().subscribe(result => {
-  console.log(result)
   if(result){
     this.openAuthDialog()
   }
-  console.log('The dialog was closed');
   // Handle the result here
 });
 

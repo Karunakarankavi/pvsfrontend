@@ -1,0 +1,17 @@
+<div class="room-list">
+  @if (rooms.length === 0) {
+    <p>No rooms available yet. Please select a date range.</p>
+  } @else {
+    @for (room of rooms; track room.room_id) {
+      <div class="room-card">
+        <img [src]="room.imgUrl" alt="Room Image" />
+        <div class="room-info">
+          <h3>{{ room.name }}</h3>
+          <p>{{ room.description }}</p>
+          <p class="price">{{ room.price }}</p>
+          <button class="book-btn">Book Now</button>
+        </div>
+      </div>
+    }
+  }
+</div>
