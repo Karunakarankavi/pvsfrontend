@@ -20,6 +20,7 @@ export class RoomAvailabilityComponent implements OnChanges {
   @Input() to: string = '';
   @Input() roomCount: number = 1;
   @Input() roomType: string = 'ac';
+  roomId! :String
 
   rooms: any[] = []; // start empty
 
@@ -39,8 +40,8 @@ export class RoomAvailabilityComponent implements OnChanges {
     }
   }
 
-  bookRoom(){
-
+  bookRoom(room:any){
+     this.roomId = room.room_id;
     this.apiService.createOrder(100).subscribe({
         next: (res: any) => {
           console.log(res)
@@ -54,31 +55,60 @@ export class RoomAvailabilityComponent implements OnChanges {
 
   }
 
-  openTransaction(res:any){
-    var option = {
-      order_id : res?.id,
-      key : "rzp_test_U7jrfJC8wzR3Mh",
-      amount : res?.amount,
-      currency : res?.currency,
-      name : "PVS",
-      description : "Paying for pvs",
-      image : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fimage-vector%2Fpvs-letter-logo-design-template-vector-1683624163&psig=AOvVaw34jLXdnj_X-hmNfypefKee&ust=1751909633742000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKitvY3iqI4DFQAAAAAdAAAAABAE",
-      handler : (response : any)=>{
-
-      },
-      prefill :{
-        name : "karna",
-        email : "karna3@gmail.com",
-      },
-      notes :{
-        address : "online"
-      },
-      theme:{
-        color : '#f37254'
-      }
+  openTransaction(res: any) {
+  var option = {
+    order_id: res?.id,
+    key: "rzp_test_U7jrfJC8wzR3Mh",
+    amount: res?.amount,
+    currency: res?.currency,
+    name: "PVS",
+    description: "Paying for pvs",
+    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fimage-vector%2Fpvs-letter-logo-design-template-vector-1683624163&psig=AOvVaw34jLXdnj_X-hmNfypefKee&ust=1751909633742000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKitvY3iqI4DFQAAAAAdAAAAABAE",
+    handler: (response: any) => {
+      console.log(response)
+       const paymentData = {
+    
+    razorpayOrderId: response.razorpay_order_id,
+    razorpayPaymentId: response.razorpay_payment_id,
+    razorpaySignature: response.razorpay_signature,
+    bookingRequest: {
+      roomId: this.roomId,
+      checkIn: this.from,
+      checkOut: this.to,
+      userId : 1
     }
+  };
 
-    var razorpayObject = new Razorpay(option);
-    razorpayObject.open()
-  }
+  this.apiService.confromAndBooK(paymentData).subscribe({
+        next: (res: any) => {
+          
+        },
+        error: (err: any) => {
+          console.error('Error fetching rooms:', err);
+          alert('Failed to fetch rooms');
+        }
+      });
+      
+    },
+    modal: {
+      ondismiss: function () {
+        console.log("Payment cancelled or popup closed by user");
+        // TODO: Handle UI update or cancellation logic here
+      }
+    },
+    prefill: {
+      name: "karna",
+      email: "karna3@gmail.com",
+    },
+    notes: {
+      address: "online"
+    },
+    theme: {
+      color: '#f37254'
+    }
+  };
+
+  var razorpayObject = new Razorpay(option);
+  razorpayObject.open();
+}
 }
