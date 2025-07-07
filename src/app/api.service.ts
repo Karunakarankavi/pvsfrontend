@@ -124,4 +124,19 @@ createOrder(amount : number) {
 }
 
 
+confromAndBooK(paymentData : any) {
+  const baseUrl = this.configService.get("backendUrl");
+  const token = window.sessionStorage.getItem("accessToken");
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  });
+
+  const url = `${baseUrl}api/payment/confirmAndBook`;
+  
+
+  return this.http.post(url , paymentData,{ headers });
+}
+
+
 }
