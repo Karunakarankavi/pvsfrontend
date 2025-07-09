@@ -44,7 +44,6 @@ export class RoomAvailabilityComponent implements OnChanges {
      this.roomId = room.room_id;
     this.apiService.createOrder(100).subscribe({
         next: (res: any) => {
-          console.log(res)
           this.openTransaction(res)
         },
         error: (err: any) => {
@@ -56,6 +55,7 @@ export class RoomAvailabilityComponent implements OnChanges {
   }
 
   openTransaction(res: any) {
+    let userId = window.sessionStorage.getItem("userId")
   var option = {
     order_id: res?.id,
     key: "rzp_test_U7jrfJC8wzR3Mh",
@@ -65,7 +65,6 @@ export class RoomAvailabilityComponent implements OnChanges {
     description: "Paying for pvs",
     image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shutterstock.com%2Fimage-vector%2Fpvs-letter-logo-design-template-vector-1683624163&psig=AOvVaw34jLXdnj_X-hmNfypefKee&ust=1751909633742000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKitvY3iqI4DFQAAAAAdAAAAABAE",
     handler: (response: any) => {
-      console.log(response)
        const paymentData = {
     
     razorpayOrderId: response.razorpay_order_id,
@@ -75,7 +74,7 @@ export class RoomAvailabilityComponent implements OnChanges {
       roomId: this.roomId,
       checkIn: this.from,
       checkOut: this.to,
-      userId : 1
+      userId : userId
     }
   };
 
@@ -92,7 +91,6 @@ export class RoomAvailabilityComponent implements OnChanges {
     },
     modal: {
       ondismiss: function () {
-        console.log("Payment cancelled or popup closed by user");
         // TODO: Handle UI update or cancellation logic here
       }
     },
