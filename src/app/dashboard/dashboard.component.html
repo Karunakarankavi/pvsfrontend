@@ -11,48 +11,7 @@
   </nav>
 </header>
 
+<app-room-availability></app-room-availability>
 
-<!-- SEARCH BAR -->
-<form [formGroup]="searchForm" class="hotel-search-bar">
-  <div class="field">
-    <label>From</label>
-    <input type="date" class="input" formControlName="fromDate" />
-  </div>
 
-  <div class="field">
-    <label>To</label>
-    <input type="date" class="input" formControlName="toDate" />
-  </div>
-
-  <div class="field">
-    <label>Rooms</label>
-    <select class="input" formControlName="roomCount">
-      <option value="1">1 Room</option>
-      <option value="2">2 Rooms</option>
-      <option value="3">3 Rooms</option>
-    </select>
-  </div>
-
-  <div class="field">
-    <label>Room Type</label>
-    <select class="input" formControlName="roomType">
-      <option value="ac">AC</option>
-      <option value="non-ac">Non-AC</option>
-    </select>
-  </div>
-
-  <button type="button" class="search-btn" (click)="onSearch()">Search</button>
-</form>
-
-<!-- ROOM LISTING SECTION -->
-@if (!searchClicked) {
-  <div class="room-hint">Please select date range to get room availability.</div>
-} @else {
-  <app-room-availability 
-    [from]="fromDate" 
-    [to]="toDate" 
-    [roomCount]="roomCount" 
-    [roomType]="roomType">
-  </app-room-availability>
-}
 

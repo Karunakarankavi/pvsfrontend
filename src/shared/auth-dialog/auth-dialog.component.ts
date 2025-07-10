@@ -43,6 +43,16 @@ export class AuthDialogComponent {
     this.isVerifying = false;
   }
 
+  parseJwt(token: any): any {
+    const parts = token.split('.');
+    if (parts.length !== 3) {
+      throw new Error('Invalid JWT token');
+    }
+    const payload = parts[1];
+    const decodedPayload = JSON.parse(atob(payload));
+    return decodedPayload;
+  }
+
   onSubmit() {
     const { username, password } = this.authForm.value;
     this.userEmail = username;
@@ -50,32 +60,36 @@ export class AuthDialogComponent {
 
     if (this.isSignup) {
       this.apiService.signup(username, password).subscribe({
-        next: (res:any) => {
+        next: (res: any) => {
           this.isVerifying = true;
         },
-        error: (err:any) => {
+        error: (err: any) => {
           console.error('Signup failed', err);
           alert('Signup failed: ' + err.error?.message || 'Unknown error');
         }
       });
     } else {
       this.apiService.signin(username, password).subscribe({
-        next: (res:any) => {
-          window.sessionStorage.setItem("accessToken" , res.AuthenticationResult.AccessToken )
+        next: (res: any) => {
+          window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken)
+          const payload = this.parseJwt(res.AuthenticationResult.AccessToken);
+          const userId = payload.sub;
+          window.sessionStorage.setItem("userId", userId)
+
           let body = {
-            name : this.userEmail
-           }
-         
+            name: this.userEmail
+          }
+
           this.dialogRef.close()
           this.router.navigate(['/dashboard']);
- 
+
         },
-        error: (err:any) => {
+        error: (err: any) => {
           console.error('Signup failed', err);
           alert('Signup failed: ' + err.error?.message || 'Unknown error');
         }
       });
-      
+
     }
   }
 
@@ -83,31 +97,31 @@ export class AuthDialogComponent {
     const { code } = this.verificationForm.value;
 
     this.apiService.verify(this.userEmail, code).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         this.apiService.signin(this.userEmail, this.password).subscribe({
-        next: (res:any) => {
-          window.sessionStorage.setItem("accessToken" , res.AuthenticationResult.AccessToken )
-           let body = {
-            name : this.userEmail
-           }
-          this.apiService.saveUser(body).subscribe({
-        next: (res:any) => {
- 
-        },
-        error: (err:any) => {
-        }
-      });
-          this.dialogRef.close()
-          this.router.navigate(['/dashboard']);
- 
-        },
-        error: (err:any) => {
-          console.error('Signup failed', err);
-          alert('Signup failed: ' + err.error?.message || 'Unknown error');
-        }
-      });
+          next: (res: any) => {
+            window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken)
+            let body = {
+              name: this.userEmail
+            }
+            this.apiService.saveUser(body).subscribe({
+              next: (res: any) => {
+
+              },
+              error: (err: any) => {
+              }
+            });
+            this.dialogRef.close()
+            this.router.navigate(['/dashboard']);
+
+          },
+          error: (err: any) => {
+            console.error('Signup failed', err);
+            alert('Signup failed: ' + err.error?.message || 'Unknown error');
+          }
+        });
       },
-      error: (err:any) => {
+      error: (err: any) => {
         console.error('Verification failed', err);
         alert('Verification failed: ' + err.error?.message || 'Unknown error');
       }

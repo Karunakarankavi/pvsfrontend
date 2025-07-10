@@ -1,3 +1,37 @@
+<!-- SEARCH BAR -->
+<form [formGroup]="searchForm" class="hotel-search-bar">
+  <div class="field">
+    <label>From</label>
+    <input type="date" class="input" formControlName="fromDate" />
+  </div>
+
+  <div class="field">
+    <label>To</label>
+    <input type="date" class="input" formControlName="toDate" />
+  </div>
+
+  <div class="field">
+    <label>Rooms</label>
+    <select class="input" formControlName="roomCount">
+      <option value="1">1 Room</option>
+      <option value="2">2 Rooms</option>
+      <option value="3">3 Rooms</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>Room Type</label>
+    <select class="input" formControlName="roomType">
+      <option value="ac">AC</option>
+      <option value="non-ac">Non-AC</option>
+    </select>
+  </div>
+
+  <button type="button" class="search-btn" (click)="onSearch()">Search</button>
+</form>
+
+
+
 <div class="room-list">
   @if (rooms.length === 0) {
     <p>No rooms available yet. Please select a date range.</p>
