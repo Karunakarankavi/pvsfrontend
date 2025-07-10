@@ -1,11 +1,14 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ApiService } from '../../api.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
   declare var Razorpay: any;
 
 @Component({
   selector: 'app-room-availability',
   standalone: true,
+    imports: [ReactiveFormsModule],
+
   templateUrl: './room-availability.component.html',
   styleUrls: ['./room-availability.component.css']
 })
@@ -18,11 +21,53 @@ export class RoomAvailabilityComponent implements OnChanges {
 
   @Input() from: string = '';
   @Input() to: string = '';
-  @Input() roomCount: number = 1;
-  @Input() roomType: string = 'ac';
+ 
   roomId! :String
 
   rooms: any[] = []; // start empty
+
+  searchForm = new FormGroup({
+    fromDate: new FormControl('', Validators.required),
+    toDate: new FormControl('', Validators.required),
+    roomCount: new FormControl(1),
+    roomType: new FormControl('ac')
+  });
+
+  searchClicked = false;
+
+  onSearch() {
+    if (this.searchForm.valid) {
+      this.searchClicked = true;
+      this.apiService.getAvailableRooms(this.fromDate, this.toDate).subscribe({
+        next: (res: any) => {
+          this.rooms = res;
+        },
+        error: (err: any) => {
+          console.error('Error fetching rooms:', err);
+          alert('Failed to fetch rooms');
+        }
+      });
+    } else {
+      alert('Please select both dates.');
+    }
+  }
+
+  // convenience getters
+  get fromDate(): string {
+  return this.searchForm.get('fromDate')?.value ?? '';
+}
+
+get toDate(): string {
+  return this.searchForm.get('toDate')?.value ?? '';
+}
+
+get roomCount(): number {
+  return Number(this.searchForm.get('roomCount')?.value ?? 1);
+}
+
+get roomType(): string {
+  return this.searchForm.get('roomType')?.value ?? 'ac';
+}
 
   ngOnChanges(changes: SimpleChanges) {
     // Check if "from" and "to" dates are both available before making API call
@@ -72,8 +117,8 @@ export class RoomAvailabilityComponent implements OnChanges {
     razorpaySignature: response.razorpay_signature,
     bookingRequest: {
       roomId: this.roomId,
-      checkIn: this.from,
-      checkOut: this.to,
+      checkIn: this.fromDate,
+      checkOut: this.toDate,
       userId : userId
     }
   };
