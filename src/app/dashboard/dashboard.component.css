@@ -98,3 +98,47 @@
 }
 
 /* room list */
+.profile-wrapper {
+  position: relative;
+}
+
+/* Dropdown Container */
+.profile-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background-color: #ffffff;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Dropdown Links */
+.profile-dropdown a {
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #333;
+  transition: background 0.3s ease;
+  font-size: 0.95rem;
+}
+
+/* Hover Effect */
+.profile-dropdown a:hover {
+  background-color: #f0f0f0;
+  color: #0071c2;
+}
+
+/* Optional: Adjust icon size */
+.profile-dropdown i {
+  font-size: 1rem;
+}

@@ -1,0 +1,9 @@
+<div class="modal-overlay">
+  <div class="modal-box">
+    <p>{{ message }}</p>
+    <div class="modal-actions">
+      <button class="btn cancel" (click)="cancel.emit()">No, Keep It</button>
+      <button class="btn confirm" (click)="confirm.emit()">Yes, Cancel</button>
+    </div>
+  </div>
+</div>
