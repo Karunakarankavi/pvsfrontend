@@ -1,37 +1,38 @@
 <div class="booking-page">
   <h2>My Bookings</h2>
-<div style="height: 100%; overflow: auto;">
-  <div class="booking-scroll-wrapper">
-    <div class="booking-list">
-      @for (booking of bookings; track booking.id) {
-        <div class="booking-card">
-          <img [src]="booking.room.imgUrl" alt="Room Image" class="room-img" />
-          <div class="details">
-            <div class="room-title">
-              <h3>{{ booking.room.name }}</h3>
-              <span class="room-id">{{ booking.room.room_id }}</span>
-            </div>
-            <p class="desc">{{ booking.room.description }}</p>
-            <div class="features">
-              🛏 {{ booking.room.bed_room }} Bed &nbsp; 🚿 {{ booking.room.rest_room }} Restroom
-              &nbsp; {{ booking.room.air_conditioner ? '❄ AC' : '🌀 Fan' }}
-            </div>
-            <div class="dates">
-              📅 <strong>Check-In:</strong> {{ booking.checkInDate || 'Pending' }}<br />
-              📅 <strong>Check-Out:</strong> {{ booking.checkOutDate || 'Pending' }}
-            </div>
-            <div class="price">
-              💰 <strong>{{ booking.room.price }}</strong>
-            </div>
-            <div class="actions">
-              <button class="details-btn" (click)="seeDetails(booking)">See Details</button>
-          <button class="cancel-btn" (click)="openCancelModal(booking.id)">Cancel Booking</button>
-            </div>
+<div style="height: 90%; overflow: auto;">
+  <div class="booking-page">
+  <div class="booking-list">
+    @for (booking of bookings; track booking.id) {
+      <div class="booking-card">
+        <img [src]="booking.room.imgUrl" alt="Room Image" class="room-img" />
+        <div class="details">
+          <div class="room-title">
+            <h3>{{ booking.room.name }}</h3>
+            <span class="room-id">{{ booking.room.room_id }}</span>
+          </div>
+          <p class="desc">{{ booking.room.description }}</p>
+          <div class="features">
+            🛏 {{ booking.room.bed_room }} Bed &nbsp; 🚿 {{ booking.room.rest_room }} Restroom
+            &nbsp; {{ booking.room.air_conditioner ? '❄ AC' : '🌀 Fan' }}
+          </div>
+          <div class="dates">
+            📅 <strong>Check-In:</strong> {{ booking.checkInDate || 'Pending' }}<br />
+            📅 <strong>Check-Out:</strong> {{ booking.checkOutDate || 'Pending' }}
+          </div>
+          <div class="price">
+            💰 <strong>{{ booking.room.price }}</strong>
+          </div>
+          <div class="actions">
+            <button class="details-btn" (click)="seeDetails(booking)">See Details</button>
+            <button class="cancel-btn" (click)="openCancelModal(booking.id)">Cancel Booking</button>
           </div>
         </div>
-      }
-    </div>
+      </div>
+    }
   </div>
+</div>
+
   </div>
 </div>
 
