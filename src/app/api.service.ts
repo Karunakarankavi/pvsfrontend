@@ -117,11 +117,8 @@ export class ApiService extends BaseClass {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-
     const url = `${baseUrl}rooms/available?checkIn=${startDate}&checkOut=${endDate}`;
-
     const body = {}; // or provide a body if needed
-
     return this.http.get(url, { headers });
   }
 
@@ -153,6 +150,37 @@ export class ApiService extends BaseClass {
 
 
     return this.http.post(url, paymentData, { headers });
+  }
+
+  getAllBookings() {
+    const baseUrl = this.configService.get("backendUrl");
+    const token = window.sessionStorage.getItem("accessToken");
+    const id = window.sessionStorage.getItem("userId");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${baseUrl}findAllBookingByUser?id=${id}`;
+
+
+    return this.http.post(url , null , { headers });
+  }
+
+  deleteBooking(bookingId:any){
+     const baseUrl = this.configService.get("backendUrl");
+    const token = window.sessionStorage.getItem("accessToken");
+    const id = window.sessionStorage.getItem("userId");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    const url = `${baseUrl}cancelBooking?id=${bookingId}`;
+
+
+    return this.http.delete(url  , { headers });
+
   }
 
 
