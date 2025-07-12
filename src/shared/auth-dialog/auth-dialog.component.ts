@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ApiService } from '../../app/api.service';
@@ -26,10 +26,10 @@ export class AuthDialogComponent {
     private router: Router,
     private apiService: ApiService
   ) {
-
     this.authForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      confirmPassword: ['']
     });
 
     this.verificationForm = this.fb.group({
@@ -37,11 +37,30 @@ export class AuthDialogComponent {
     });
   }
 
-  toggleMode(event: Event) {
-    event.preventDefault();
-    this.isSignup = !this.isSignup;
-    this.isVerifying = false;
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const form = control as FormGroup;
+  const password = form.get('password')?.value;
+  const confirmPassword = form.get('confirmPassword')?.value;
+  return password === confirmPassword ? null : { mismatch: true };
+}
+
+ toggleMode(event: Event) {
+  event.preventDefault();
+  this.isSignup = !this.isSignup;
+  this.isVerifying = false;
+
+  if (this.isSignup) {
+    this.authForm.setValidators(this.passwordMatchValidator);
+  } else {
+    // Clear validators and reset confirmPassword when switching to Sign In
+    this.authForm.clearValidators();
+    this.authForm.get('confirmPassword')?.setValue('');
+    this.authForm.get('confirmPassword')?.setErrors(null);
   }
+
+  this.authForm.updateValueAndValidity();
+}
+
 
   parseJwt(token: any): any {
     const parts = token.split('.');
@@ -58,6 +77,11 @@ export class AuthDialogComponent {
     this.userEmail = username;
     this.password = password;
 
+    if (this.isSignup && this.authForm.errors?.['mismatch']) {
+      alert('Passwords do not match');
+      return;
+    }
+
     if (this.isSignup) {
       this.apiService.signup(username, password).subscribe({
         next: (res: any) => {
@@ -65,31 +89,26 @@ export class AuthDialogComponent {
         },
         error: (err: any) => {
           console.error('Signup failed', err);
-          alert('Signup failed: ' + err.error?.message || 'Unknown error');
+          alert('Signup failed: ' + (err.error?.message || 'Unknown error'));
         }
       });
     } else {
       this.apiService.signin(username, password).subscribe({
         next: (res: any) => {
-          window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken)
+          window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken);
           const payload = this.parseJwt(res.AuthenticationResult.AccessToken);
           const userId = payload.sub;
-          window.sessionStorage.setItem("userId", userId)
+          window.sessionStorage.setItem("userId", userId);
 
-          let body = {
-            name: this.userEmail
-          }
-
-          this.dialogRef.close()
+          let body = { name: this.userEmail };
+          this.dialogRef.close();
           this.router.navigate(['/dashboard']);
-
         },
         error: (err: any) => {
-          console.error('Signup failed', err);
-          alert('Signup failed: ' + err.error?.message || 'Unknown error');
+          console.error('Signin failed', err);
+          alert('Signin failed: ' + (err.error?.message || 'Unknown error'));
         }
       });
-
     }
   }
 
@@ -100,30 +119,26 @@ export class AuthDialogComponent {
       next: (res: any) => {
         this.apiService.signin(this.userEmail, this.password).subscribe({
           next: (res: any) => {
-            window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken)
-            let body = {
-              name: this.userEmail
-            }
+            window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken);
+            let body = { name: this.userEmail };
+
             this.apiService.saveUser(body).subscribe({
-              next: (res: any) => {
-
-              },
-              error: (err: any) => {
-              }
+              next: () => {},
+              error: () => {}
             });
-            this.dialogRef.close()
-            this.router.navigate(['/dashboard']);
 
+            this.dialogRef.close();
+            this.router.navigate(['/dashboard']);
           },
           error: (err: any) => {
-            console.error('Signup failed', err);
-            alert('Signup failed: ' + err.error?.message || 'Unknown error');
+            console.error('Signin failed', err);
+            alert('Signin failed: ' + (err.error?.message || 'Unknown error'));
           }
         });
       },
       error: (err: any) => {
         console.error('Verification failed', err);
-        alert('Verification failed: ' + err.error?.message || 'Unknown error');
+        alert('Verification failed: ' + (err.error?.message || 'Unknown error'));
       }
     });
   }
