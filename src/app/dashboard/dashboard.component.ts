@@ -4,12 +4,13 @@ import { RoomAvailabilityComponent } from './room-availability/room-availability
 import { ClickOutsideDirective } from './click-outside.directive';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { Router } from '@angular/router';
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, RoomAvailabilityComponent , ClickOutsideDirective , MyBookingsComponent],
+  imports: [ReactiveFormsModule, RoomAvailabilityComponent , ClickOutsideDirective , MyBookingsComponent , UserDetailsComponent ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
@@ -31,6 +32,8 @@ export class DashboardComponent {
   route(component:string){
    console.log(component);
     console.log("routing")
+      this.closeDropdown(); // ✅ close dropdown after click
+
     this.componentName = component
   }
 

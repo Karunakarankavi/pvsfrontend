@@ -16,7 +16,7 @@
   @if (dropdownOpen) {
     <div class="profile-dropdown">
       <a (click)="route('booking')"><i class="fas fa-calendar-check"></i> My Bookings</a>
-      <a routerLink="/profile"><i class="fas fa-user"></i> My Profile</a>
+      <a (click)="route('profile')" ><i class="fas fa-user"></i> My Profile</a>
       <a  (click)="logout()" ><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
   }
@@ -29,6 +29,11 @@
 }
 @if(componentName == 'booking'){
 <app-my-bookings></app-my-bookings>
+
+}
+
+@if(componentName == 'profile'){
+<app-user-details></app-user-details>
 
 }
 

@@ -1,12 +1,12 @@
 <!-- SEARCH BAR -->
 <form [formGroup]="searchForm" class="hotel-search-bar">
   <div class="field">
-    <label>From</label>
+    <label>Check in</label>
     <input type="date" class="input" formControlName="fromDate" />
   </div>
 
   <div class="field">
-    <label>To</label>
+    <label>Check out</label>
     <input type="date" class="input" formControlName="toDate" />
   </div>
 
@@ -34,7 +34,7 @@
 
 <div class="room-list">
   @if (rooms.length === 0) {
-    <p>No rooms available yet. Please select a date range.</p>
+    <p> Please select a date range to get room availability status</p>
   } @else {
     @for (room of rooms; track room.room_id) {
       <div class="room-card">

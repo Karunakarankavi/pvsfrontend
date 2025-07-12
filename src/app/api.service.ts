@@ -110,6 +110,37 @@ export class ApiService extends BaseClass {
 
   }
 
+
+  getUser() {
+    let baseUrl = this.configService.get("backendUrl")
+    const token = window.sessionStorage.getItem("accessToken")
+    const id    = window.sessionStorage.getItem("userId")
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      "Content-Type": "application/json"
+    });
+    const url = `${baseUrl}getuser?id=${id}`;
+    return this.http.get(url, { headers });
+
+  }
+
+
+  updateUser(userDetails: any) {
+    const baseUrl = this.configService.get("backendUrl");
+    const token = window.sessionStorage.getItem("accessToken");
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const id = window.sessionStorage.getItem("userId");
+    const url = `${baseUrl}updateuser?id=${id}`;
+
+
+    return this.http.put(url, userDetails, { headers });
+  }
+
+  
+
   getAvailableRooms(startDate: string, endDate: string) {
     const baseUrl = this.configService.get("backendUrl");
     const token = window.sessionStorage.getItem("accessToken");
