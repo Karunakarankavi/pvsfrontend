@@ -18,7 +18,7 @@ export class LandingComponent {
 openAuthDialog() {
   const dialogRef = this.dialog.open(AuthDialogComponent, {
   width: '40%',
-  height: '60%',
+  height: '70%',
 });
 
 dialogRef.afterClosed().subscribe(result => {

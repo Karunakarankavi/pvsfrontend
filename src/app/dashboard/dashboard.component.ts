@@ -3,6 +3,8 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { RoomAvailabilityComponent } from './room-availability/room-availability.component';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +15,7 @@ import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 })
 export class DashboardComponent {
  
+    constructor(private router: Router) {}
 
   dropdownOpen = false;
   componentName:string = "search"
@@ -32,7 +35,9 @@ export class DashboardComponent {
   }
 
   logout() {
+        console.log('Logging out...');
+
     // implement logout logic here (e.g., AuthService.logout())
-    console.log('Logging out...');
+    this.router.navigate(['/'])
   }
 }
