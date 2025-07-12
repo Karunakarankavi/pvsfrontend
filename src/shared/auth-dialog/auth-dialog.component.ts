@@ -120,6 +120,9 @@ export class AuthDialogComponent {
         this.apiService.signin(this.userEmail, this.password).subscribe({
           next: (res: any) => {
             window.sessionStorage.setItem("accessToken", res.AuthenticationResult.AccessToken);
+              const payload = this.parseJwt(res.AuthenticationResult.AccessToken);
+          const userId = payload.sub;
+          window.sessionStorage.setItem("userId", userId);
             let body = { name: this.userEmail };
 
             this.apiService.saveUser(body).subscribe({
