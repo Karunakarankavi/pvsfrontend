@@ -1,0 +1,45 @@
+<div class="profile-container">
+  @if (user) {
+    <div class="profile-header">
+      <h2>Profile</h2>
+      @if (!isEditing) {
+        <button class="edit-btn" (click)="enableEdit()" title="Edit">
+          <span class="flip-pencil">✏️</span>
+        </button>
+      }
+    </div>
+
+    @if (!isEditing) {
+      <div class="profile-view">
+        <p><strong>Name:</strong> {{ user.name }}</p>
+        <p><strong>Mobile Number:</strong> {{ user.mobileNumber || '-' }}</p>
+        <p><strong>Email:</strong> {{ user.name || '-' }}</p>
+        <p><strong>Address:</strong> {{ user.address || '-' }}</p>
+        <p><strong>Zipcode:</strong> {{ user.zipcode || '-' }}</p>
+      </div>
+    } @else {
+      <form class="profile-form" (ngSubmit)="save()">
+        <label>Name:
+          <input [(ngModel)]="user.name" name="name" />
+        </label>
+        <label>Mobile Number:
+          <input [(ngModel)]="user.mobileNumber" name="mobileNumber" />
+        </label>
+        <label>Email:
+          <input [(ngModel)]="user.name" name="email" />
+        </label>
+        <label>Address:
+          <input [(ngModel)]="user.address" name="address" />
+        </label>
+        <label>Zipcode:
+          <input type="number" [(ngModel)]="user.zipcode" name="zipcode" />
+        </label>
+
+        <div class="button-group">
+          <button type="submit">Update</button>
+          <button type="button" (click)="cancelEdit()">Cancel</button>
+        </div>
+      </form>
+    }
+  }
+</div>

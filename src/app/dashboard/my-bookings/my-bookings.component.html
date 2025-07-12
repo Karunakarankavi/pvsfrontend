@@ -2,6 +2,11 @@
   <h2>My Bookings</h2>
 <div style="height: 90%; overflow: auto;">
   <div class="booking-page">
+    @if(bookings.length == 0){
+      <div>
+        No room has been booked
+      </div>
+    }
   <div class="booking-list">
     @for (booking of bookings; track booking.id) {
       <div class="booking-card">
