@@ -142,3 +142,16 @@
 .profile-dropdown i {
   font-size: 1rem;
 }
+
+.app-footer {
+  background-color: #232f3e;
+  text-align: center;
+  
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.9rem;
+  color: white;
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
